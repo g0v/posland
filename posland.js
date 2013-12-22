@@ -26,26 +26,34 @@
             num = replace$.call(matches[4], /[^\d]/g, '');
             office = json.section[areaId][sec].o;
             if (num != null) {
-              query = {
-                'flag': 2,
-                'office': office,
-                'sect': secId,
-                'landno': num
-              };
-              uri = base + '?' + querystring.stringify(query);
-              return request({
-                'url': uri,
-                'encoding': 'utf-8',
-                'method': 'GET'
-              }, function(error, response, body){
-                var result;
-                result = JSON.parse(body);
-                result.push('source: ' + uri);
+              if (q.magic != null) {
+                query = "lands[]=" + matches[1] + ',' + sec + ',' + num;
                 res.writeHead(200, {
-                  'Content-Type': 'application/json'
+                  'Content-Type': 'text/plain'
                 });
-                return res.end(JSON.stringify(result));
-              });
+                return res.end(query);
+              } else {
+                query = {
+                  'flag': 2,
+                  'office': office,
+                  'sect': secId,
+                  'landno': num
+                };
+                uri = base + '?' + querystring.stringify(query);
+                return request({
+                  'url': uri,
+                  'encoding': 'utf-8',
+                  'method': 'GET'
+                }, function(error, response, body){
+                  var result;
+                  result = JSON.parse(body);
+                  result.push('source: ' + uri);
+                  res.writeHead(200, {
+                    'Content-Type': 'application/json'
+                  });
+                  return res.end(JSON.stringify(result));
+                });
+              }
             }
           }
         }

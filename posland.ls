@@ -24,17 +24,22 @@ server = http.createServer (req, res) ->
           num = matches[4] - /[^\d]/g
           office = json.section[area-id][sec].o
           if num?
-            query =
-              \flag : 2
-              \office : office
-              \sect : sec-id
-              \landno : num
-            uri = base + \? + querystring.stringify query
-            error,response,body <- request {'url':uri, 'encoding':'utf-8', 'method': 'GET'}
-            result = JSON.parse body
-            result.push 'source: '+uri
-            res.writeHead 200, 'Content-Type': 'application/json'
-            res.end JSON.stringify result
+            if q.magic?
+              query = "lands[]="+matches[1]+','+sec+','+num
+              res.writeHead 200, 'Content-Type': 'text/plain'
+              res.end query
+            else
+              query =
+                \flag : 2
+                \office : office
+                \sect : sec-id
+                \landno : num
+              uri = base + \? + querystring.stringify query
+              error,response,body <- request {'url':uri, 'encoding':'utf-8', 'method': 'GET'}
+              result = JSON.parse body
+              result.push 'source: '+uri
+              res.writeHead 200, 'Content-Type': 'application/json'
+              res.end JSON.stringify result
     else
       res.writeHead 200, 'Content-Type': 'text/plain'
       res.end \404
