@@ -1,9 +1,11 @@
 posland
 =======
-地號經緯度查詢 of taiwan
+台灣地址/地號經緯度查詢
 
 - 地號來源: http://maps.nlsc.gov.tw/
-- 地址來源: https://developers.google.com/maps/documentation/javascript/reference?hl=zh-tw
+- 地址來源: https://developers.google.com/maps/documentation/geocoding/
+  - 限制：每24小時內2500次
+  - TODO：port maps.nlsc.gov.tw to here
 
 地號
 ----
