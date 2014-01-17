@@ -1,10 +1,9 @@
 posland
 =======
-
 地號經緯度查詢 of taiwan
 
-地號來源: http://maps.nlsc.gov.tw/
-地址來源: https://developers.google.com/maps/documentation/javascript/reference?hl=zh-tw
+- 地號來源: http://maps.nlsc.gov.tw/
+- 地址來源: https://developers.google.com/maps/documentation/javascript/reference?hl=zh-tw
 
 地號
 ----
