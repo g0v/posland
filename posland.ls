@@ -1,13 +1,16 @@
-require! \http
-require! \url
-require! \fs
-require! \querystring
-require! \request
+require! <[ http url fs querystring request ]>
 
 json = JSON.parse fs.readFileSync \section.json,\utf-8
 base = \http://landmaps.nlsc.gov.tw/S_Maps/qryTileMapIndex
 gmap = \http://maps.google.com/maps/api/geocode/json?sensor=false&language=zh-tw&region=tw&address=
+cors =
+  'Access-Control-Allow-Origin': \*
+  'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type,If-Modified-Since'
+  'Access-Control-Allow-Methods': 'GET,POST,PUT'
 server = http.createServer (req, res) ->
+  if req.method is \OPTIONS
+    res.writeHead 204, cors; res.end!; return
+
   p = url.parse decodeURIComponent req.url
   q = querystring.parse p.query
   if q.address?
@@ -40,7 +43,7 @@ server = http.createServer (req, res) ->
             if num?
               if q.magic?
                 query = "lands[]="+matches[1]+','+sec+','+num
-                res.writeHead 200, 'Content-Type': 'text/plain'
+                res.writeHead 200, {'Content-Type': 'text/plain; charset=utf-8'} <<< cors
                 res.end query
               else
                 query =
@@ -52,13 +55,13 @@ server = http.createServer (req, res) ->
                 error,response,body <- request {'url':uri, 'encoding':'utf-8', 'method': 'GET'}
                 result = JSON.parse body
                 result.push 'source: '+uri
-                res.writeHead 200, 'Content-Type': 'application/json'
+                res.writeHead 200, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
                 res.end JSON.stringify result
       else
-        res.writeHead 404, 'Content-Type': 'text/html'
+        res.writeHead 404, {'Content-Type': 'text/html; charset=utf-8'} <<< cors
         res.end '{"error":"wrong format", "msg":"錯誤的地號格式，需縣市鄉鎮市區段號碼：[桃園縣蘆竹鄉內興段632]"}';
   else
-    res.writeHead 404, 'Content-Type': 'text/plain'
+    res.writeHead 404, {'Content-Type': 'text/plain; charset=utf-8'} <<< cors
     res.end '{"error":"wrong request", "msg":"錯誤的傳入參數，需帶入完整地址或完整地號[?address=臺北市信義區市府路1號]"}';
 
 server.listen 9192

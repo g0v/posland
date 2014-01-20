@@ -7,6 +7,10 @@ posland
   - 限制：每24小時內2500次
   - TODO：port maps.nlsc.gov.tw to here
 
+Base url
+--------
+http://posland.g0v.io
+
 地號
 ----
 Sample Request:
@@ -14,7 +18,7 @@ Sample Request:
 /?address=臺中市北區水源段282之5
 ```
 Sample URL:
-- http://goo.gl/oPxtIG
+- http://goo.gl/vP8a8x
 
 Sample Response:
 ```json
@@ -46,7 +50,7 @@ Sample Request:
 /?address=臺北市信義區市府路1號
 ```
 Sample URL: 
-- http://goo.gl/ZECBuq
+- http://goo.gl/Zoguqy
 
 Sample Response:
 ```json
