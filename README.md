@@ -7,6 +7,10 @@ posland
   - 限制：每24小時內2500次
   - TODO：port maps.nlsc.gov.tw to here
 
+Base url
+--------
+http://posland.g0v.io
+
 地號
 ----
 Sample Request:
