@@ -24,7 +24,7 @@ server = http.createServer (req, res) ->
       error,response,body <- request {'url':uri, 'encoding':'utf-8', 'method': 'GET'}
       result = JSON.parse body
       result.source = uri
-      res.writeHead 200, 'Content-Type': 'application/json'
+      res.writeHead 200, {'Content-Type': 'application/json'} <<< cors
       res.end JSON.stringify result
     # when only have "段", try to find landno
     else
@@ -58,10 +58,10 @@ server = http.createServer (req, res) ->
                 res.writeHead 200, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
                 res.end JSON.stringify result
       else
-        res.writeHead 404, {'Content-Type': 'text/html; charset=utf-8'} <<< cors
+        res.writeHead 404, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
         res.end '{"error":"wrong format", "msg":"錯誤的地號格式，需縣市鄉鎮市區段號碼：[桃園縣蘆竹鄉內興段632]"}';
   else
-    res.writeHead 404, {'Content-Type': 'text/plain; charset=utf-8'} <<< cors
+    res.writeHead 404, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
     res.end '{"error":"wrong request", "msg":"錯誤的傳入參數，需帶入完整地址或完整地號[?address=臺北市信義區市府路1號]"}';
 
 server.listen 9192
