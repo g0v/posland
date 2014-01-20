@@ -53,10 +53,14 @@ server = http.createServer (req, res) ->
                   \landno : num
                 uri = base + \? + querystring.stringify query
                 error,response,body <- request {'url':uri, 'encoding':'utf-8', 'method': 'GET'}
-                result = JSON.parse body
-                result.push 'source: '+uri
-                res.writeHead 200, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
-                res.end JSON.stringify result
+                if body?
+                  result = JSON.parse body
+                  result.push 'source: '+uri
+                  res.writeHead 200, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
+                  res.end JSON.stringify result
+                else
+                  res.writeHead 404, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
+                  res.end '{"error":"not found", "msg":"找不到你輸入的地址"}';
       else
         res.writeHead 404, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
         res.end '{"error":"wrong format", "msg":"錯誤的地號格式，需縣市鄉鎮市區段號碼：[桃園縣蘆竹鄉內興段632]"}';

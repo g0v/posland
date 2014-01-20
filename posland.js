@@ -75,12 +75,19 @@
                     'method': 'GET'
                   }, function(error, response, body){
                     var result;
-                    result = JSON.parse(body);
-                    result.push('source: ' + uri);
-                    res.writeHead(200, import$({
-                      'Content-Type': 'application/json; charset=utf-8'
-                    }, cors));
-                    return res.end(JSON.stringify(result));
+                    if (body != null) {
+                      result = JSON.parse(body);
+                      result.push('source: ' + uri);
+                      res.writeHead(200, import$({
+                        'Content-Type': 'application/json; charset=utf-8'
+                      }, cors));
+                      return res.end(JSON.stringify(result));
+                    } else {
+                      res.writeHead(404, import$({
+                        'Content-Type': 'application/json; charset=utf-8'
+                      }, cors));
+                      return res.end('{"error":"not found", "msg":"找不到你輸入的地址"}');
+                    }
                   });
                 }
               }
