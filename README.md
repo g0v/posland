@@ -45,6 +45,10 @@ Sample Response:
 
 地址
 ----
+TODO:
+- 直接用 maps.nlsc.gov.tw 進行地址座標反查
+- 模糊定位
+
 Sample Request:
 ```
 /?address=臺北市信義區市府路1號
