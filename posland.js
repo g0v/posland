@@ -72,12 +72,16 @@
                   return request({
                     'url': uri,
                     'encoding': 'utf-8',
-                    'method': 'GET'
+                    'method': 'GET',
+                    'headers': {
+                      'Referer': 'http://maps.nlsc.gov.tw/O09/mapshow.action'
+                    }
                   }, function(error, response, body){
                     var result;
+                    console.log(addr);
                     if (body != null) {
                       result = JSON.parse(body);
-                      result.push('source: ' + uri);
+                      result.push('source: http://maps.nlsc.gov.tw/');
                       res.writeHead(200, import$({
                         'Content-Type': 'application/json; charset=utf-8'
                       }, cors));

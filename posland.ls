@@ -52,10 +52,11 @@ server = http.createServer (req, res) ->
                   \sect : sec-id
                   \landno : num
                 uri = base + \? + querystring.stringify query
-                error,response,body <- request {'url':uri, 'encoding':'utf-8', 'method': 'GET'}
+                error,response,body <- request {'url':uri, 'encoding':'utf-8', 'method': 'GET', 'headers': {'Referer':'http://maps.nlsc.gov.tw/O09/mapshow.action'}}
+                console.log addr
                 if body?
                   result = JSON.parse body
-                  result.push 'source: '+uri
+                  result.push 'source: http://maps.nlsc.gov.tw/'
                   res.writeHead 200, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
                   res.end JSON.stringify result
                 else
