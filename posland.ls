@@ -7,27 +7,42 @@ cors =
   'Access-Control-Allow-Origin': \*
   'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type,If-Modified-Since'
   'Access-Control-Allow-Methods': 'GET,POST,PUT'
+
+strReplace = (search, replace, subject) ->
+  i = 0
+  for x in search
+    subject = subject.replace x replace[i]
+    i++
+  return subject
+toNum = (str) ->
+  return str_replace(['１','２','３','４','５','６','７','８','９','０'], [1,2,3,4,5,6,7,8,9,0], str);
+
 server = http.createServer (req, res) ->
   if req.method is \OPTIONS
     res.writeHead 204, cors; res.end!; return
 
   p = url.parse decodeURIComponent req.url
   q = querystring.parse p.query
-  if q.address?
-    # handling address
-    addr = q.address.replace /台/g \臺
+  console.log 123
+  if q.address? || q.landno?
+    # address 
+    if q.address?
+      addr = q.address.replace /台/g \臺
+      # tokenize address
+      matches = /(..[市縣])(.{1,2}[^鄉鎮市區]?[鄉鎮市區])(.{1,3}[村里])?(.{1,4}鄰)?(.{1,3}[街路])?(.{1,2}段)?(.{1,2}巷)?(.{1,2}弄)?(.*)/gi is addr;
+      console.log matches
 
-    # when have "路" , use google map api to get reverse query
-    matches = /(..(?:市|縣))(.{1,3}(?:鄉|鎮|市|區))(.{2,8}路)(.*)/gi is addr
-    if matches?
+      # TODO to pass token to http://maps.nlsc.gov.tw/
       uri = gmap+addr;
       error,response,body <- request {'url':uri, 'encoding':'utf-8', 'method': 'GET'}
       result = JSON.parse body
       result.source = uri
       res.writeHead 200, {'Content-Type': 'application/json'} <<< cors
       res.end JSON.stringify result
-    # when only have "段", try to find landno
-    else
+
+    # landno
+    else if q.landno?
+      addr = q.landno.replace /台/g \臺
       matches = /(..(?:市|縣))(.{1,2}(?:鄉|鎮|市|區))(.{2,8}段)(.*)/gi is addr
       uri = ''
       if matches?
@@ -67,6 +82,6 @@ server = http.createServer (req, res) ->
         res.end '{"error":"wrong format", "msg":"錯誤的地號格式，需縣市鄉鎮市區段號碼：[桃園縣蘆竹鄉內興段632]"}';
   else
     res.writeHead 404, {'Content-Type': 'application/json; charset=utf-8'} <<< cors
-    res.end '{"error":"wrong request", "msg":"錯誤的傳入參數，需帶入完整地址或完整地號[?address=臺北市信義區市府路1號]"}';
+    res.end '{"error":"wrong request", "msg":"錯誤的傳入參數，需帶入完整地址[?address=臺北市信義區市府路1號]，或完整地號[?landno=桃園縣蘆竹鄉內興段632]"}';
 
 server.listen 9192

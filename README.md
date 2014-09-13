@@ -15,7 +15,8 @@ http://posland.g0v.io
 ----
 Sample Request:
 ```
-/?address=臺中市北區水源段282之5
+/?landno=臺中市北區水源段282之5
+/?address=台北市大安區羅斯福路四段1號
 ```
 Sample URL:
 - http://goo.gl/vP8a8x
