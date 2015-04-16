@@ -58,7 +58,7 @@
         });
       } else if (q.landno != null) {
         addr = q.landno.replace(/台/g, '臺');
-        matches = /(..(?:市|縣))(.{1,2}(?:鄉|鎮|市|區))(.{2,8}段)(.*)/gi.exec(addr);
+        matches = /(..(?:市|縣))(.{1,2}(?:鄉|鎮|市|區))(\D{2,}段)(.*)/gi.exec(addr);
         uri = '';
         if (matches != null) {
           cityArea = matches[1] + matches[2];

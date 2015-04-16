@@ -25,7 +25,7 @@ server = http.createServer (req, res) ->
   q = querystring.parse p.query
   console.log 123
   if q.address? || q.landno?
-    # address 
+    # address
     if q.address?
       addr = q.address.replace /台/g \臺
       # tokenize address
@@ -43,7 +43,7 @@ server = http.createServer (req, res) ->
     # landno
     else if q.landno?
       addr = q.landno.replace /台/g \臺
-      matches = /(..(?:市|縣))(.{1,2}(?:鄉|鎮|市|區))(.{2,8}段)(.*)/gi is addr
+      matches = /(..(?:市|縣))(.{1,2}(?:鄉|鎮|市|區))(\D{2,}段)(.*)/gi is addr
       uri = ''
       if matches?
         city-area = matches[1] + matches[2]
