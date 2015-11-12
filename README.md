@@ -9,7 +9,7 @@ posland
 
 Support Docker
 --------
-docker run -d -p 80:9192 philipz/posland:0.0.1
+docker run -d -p 80:9192 philipz/posland
 
 Base url
 --------
