@@ -7,6 +7,10 @@ posland
   - 限制：每24小時內2500次
   - TODO：port maps.nlsc.gov.tw to here
 
+Support Docker
+--------
+docker run -d -p 80:9192 philipz/posland
+
 Base url
 --------
 http://posland.g0v.io

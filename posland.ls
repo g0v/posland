@@ -31,7 +31,7 @@ server = http.createServer (req, res) ->
       # tokenize address
       matches = /(..[市縣])(.{1,2}[^鄉鎮市區]?[鄉鎮市區])(.{1,3}[村里])?(.{1,4}鄰)?(.{1,3}[街路])?(.{1,2}段)?(.{1,2}巷)?(.{1,2}弄)?(.*)/gi is addr;
       console.log matches
-
+      addr = encodeURIComponent(addr)
       # TODO to pass token to http://maps.nlsc.gov.tw/
       uri = gmap+addr;
       error,response,body <- request {'url':uri, 'encoding':'utf-8', 'method': 'GET'}
